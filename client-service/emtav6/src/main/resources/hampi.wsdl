@@ -1,0 +1,301 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://emta-v6.x-road.eu" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd" name="ompi" targetNamespace="http://emta-v6.x-road.eu">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://emta-v6.x-road.eu">
+      <import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
+      <element name="OmpiKontrollV2">
+        <complexType>
+          <sequence>
+            <element name="keha" type="tns:OmpiKontrollV2RequestType"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="OmpiKontrollV2Response">
+        <complexType>
+          <sequence>
+            <element name="paring" type="tns:OmpiKontrollV2RequestType"/>
+            <element name="keha" type="tns:OmpiKontrollV2ResponseType"/>
+          </sequence>
+        </complexType>
+      </element>
+      <complexType name="OmpiKontrollV2RequestType">
+        <sequence>
+          <choice>
+            <sequence>
+              <element name="isikukood" type="string">
+                <annotation>
+                  <appinfo>
+                    <xrd:title>Eesti isikukood</xrd:title>
+                  </appinfo>
+                </annotation>
+              </element>
+            </sequence>
+            <sequence>
+              <element name="perenimi" type="string">
+                <annotation>
+                  <appinfo>
+                    <xrd:title>Perenimi</xrd:title>
+                  </appinfo>
+                </annotation>
+              </element>
+              <element name="eesnimi" type="string">
+                <annotation>
+                  <appinfo>
+                    <xrd:title>Eesnimi</xrd:title>
+                  </appinfo>
+                </annotation>
+              </element>
+              <element name="synnikuupaev" type="date">
+                <annotation>
+                  <appinfo>
+                    <xrd:title>Sünnikuupäev</xrd:title>
+                  </appinfo>
+                </annotation>
+              </element>
+            </sequence>
+          </choice>
+        </sequence>
+      </complexType>
+      <complexType name="OmpiKontrollV2ResponseType">
+        <sequence>
+          <element maxOccurs="unbounded" name="piirang">
+            <annotation>
+              <appinfo>
+                <xrd:title>Piirangu kood</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="integer">
+                <enumeration value="0">
+                  <annotation>
+                    <documentation>Piirangud puuduvad</documentation>
+                  </annotation>
+                </enumeration>
+                <enumeration value="100">
+                  <annotation>
+                    <documentation>Õnnemängu piirang (enne 01.01.2016 registreeritud piirang)</documentation>
+                  </annotation>
+                </enumeration>
+                <enumeration value="101">
+                  <annotation>
+                    <documentation>Õnnemängu piirang (pärast 01.01.2016 registreeritud piirang)</documentation>
+                  </annotation>
+                </enumeration>
+                <enumeration value="102">
+                  <annotation>
+                    <documentation>Toto piirang</documentation>
+                  </annotation>
+                </enumeration>
+                <enumeration value="103">
+                  <annotation>
+                    <documentation>Loto piirang</documentation>
+                  </annotation>
+                </enumeration>
+              </restriction>
+            </simpleType>
+          </element>
+        </sequence>
+      </complexType>
+      <element name="OmpiAndmedV2">
+        <complexType>
+          <sequence>
+            <element name="keha" type="string"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="OmpiAndmedV2Response">
+        <complexType>
+          <sequence>
+            <element name="paring" type="string"/>
+            <element name="keha" type="tns:OmpiAndmedV2ResponseType"/>
+          </sequence>
+        </complexType>
+      </element>
+      <complexType name="OmpiAndmedV2ResponseType">
+        <sequence>
+          <element minOccurs="0" name="isikukoodiga">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eesti isikud</xrd:title>
+              </appinfo>
+            </annotation>
+            <complexType>
+              <sequence>
+                <element maxOccurs="unbounded" name="isik" type="tns:OmpiRestrictionWithPersonalCode"/>
+              </sequence>
+            </complexType>
+          </element>
+          <element minOccurs="0" name="isikukoodita">
+            <annotation>
+              <appinfo>
+                <xrd:title>Välismaa isikud</xrd:title>
+              </appinfo>
+            </annotation>
+            <complexType>
+              <sequence>
+                <element maxOccurs="unbounded" name="isik" type="tns:OmpiRestrictionWithoutPersonalCode"/>
+              </sequence>
+            </complexType>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="OmpiRestrictionWithPersonalCode">
+        <sequence>
+          <element name="isikukood" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eesti isikukood</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element maxOccurs="unbounded" name="piirang" type="tns:OmpiRestriction">
+            <annotation>
+              <appinfo>
+                <xrd:title>Piirangu kood</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="OmpiRestrictionWithoutPersonalCode">
+        <sequence>
+          <element name="perenimi" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Perenimi</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="eesnimi" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eesnimi</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="synnikuupaev" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Sünnikuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element maxOccurs="unbounded" name="piirang" type="tns:OmpiRestriction">
+            <annotation>
+              <appinfo>
+                <xrd:title>Piirangu kood</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <simpleType name="OmpiRestriction">
+        <restriction base="integer">
+          <enumeration value="100">
+            <annotation>
+              <documentation>Õnnemängu piirang (enne 01.01.2016 registreeritud piirang)</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="101">
+            <annotation>
+              <documentation>Õnnemängu piirang (pärast 01.01.2016 registreeritud piirang)</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="102">
+            <annotation>
+              <documentation>Toto piirang</documentation>
+            </annotation>
+          </enumeration>
+          <enumeration value="103">
+            <annotation>
+              <documentation>Loto piirang</documentation>
+            </annotation>
+          </enumeration>
+        </restriction>
+      </simpleType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="xrdHeader">
+    <wsdl:part element="xrd:client" name="client"/>
+    <wsdl:part element="xrd:service" name="service"/>
+    <wsdl:part element="xrd:id" name="id"/>
+    <wsdl:part element="xrd:userId" name="userId"/>
+    <wsdl:part element="xrd:issue" name="issue"/>
+    <wsdl:part element="xrd:protocolVersion" name="protocolVersion"/>
+  </wsdl:message>
+  <wsdl:message name="OmpiKontrollV2">
+    <wsdl:part element="tns:OmpiKontrollV2" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="OmpiKontrollV2Response">
+    <wsdl:part element="tns:OmpiKontrollV2Response" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="OmpiAndmedV2">
+    <wsdl:part element="tns:OmpiAndmedV2" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="OmpiAndmedV2Response">
+    <wsdl:part element="tns:OmpiAndmedV2Response" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="webServiceInterface">
+    <wsdl:operation name="OmpiKontrollV2">
+      <wsdl:documentation>
+        <xrd:title>Õnnemängu mängimise piirangu kontroll</xrd:title>
+      </wsdl:documentation>
+      <wsdl:input message="tns:OmpiKontrollV2"/>
+      <wsdl:output message="tns:OmpiKontrollV2Response"/>
+    </wsdl:operation>
+    <wsdl:operation name="OmpiAndmedV2">
+      <wsdl:documentation>
+        <xrd:title>Õnnemängu mängimise piirangu nimekiri</xrd:title>
+      </wsdl:documentation>
+      <wsdl:input message="tns:OmpiAndmedV2"/>
+      <wsdl:output message="tns:OmpiAndmedV2Response"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="soapBindings" type="tns:webServiceInterface">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="OmpiKontrollV2">
+      <soap:operation soapAction=""/>
+      <xrd:version>v2</xrd:version>
+      <wsdl:input>
+        <soap:header message="tns:xrdHeader" part="client" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="service" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="id" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="userId" use="literal"/>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:xrdHeader" part="client" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="service" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="id" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="userId" use="literal"/>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OmpiAndmedV2">
+      <soap:operation soapAction=""/>
+      <xrd:version>v2</xrd:version>
+      <wsdl:input>
+        <soap:header message="tns:xrdHeader" part="client" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="service" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="id" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="userId" use="literal"/>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:xrdHeader" part="client" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="service" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="id" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="protocolVersion" use="literal"/>
+        <soap:header message="tns:xrdHeader" part="userId" use="literal"/>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="webService">
+    <wsdl:port binding="tns:soapBindings" name="port">
+      <soap:address location="http://SERVER_URL"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
